@@ -2,31 +2,26 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 
 	"discordv2.at/m/v2/commands"
+	"discordv2.at/m/v2/config"
 	"github.com/bwmarrin/discordgo"
-	"gopkg.in/yaml.v2"
-)
-
-var (
-	Token string
 )
 
 func init() {
-	config, err := ReadConfig()
+	c, err := config.ReadConfig()
 	if err != nil {
 		panic(err)
 	}
-	Token = config.Token
+	config.Config = c
 }
 
 func main() {
-	dg, err := discordgo.New("Bot " + Token)
+	dg, err := discordgo.New("Bot " + config.Config.Token)
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
 		return
@@ -61,22 +56,4 @@ func main() {
 	<-sc
 
 	dg.Close()
-}
-
-type Config struct {
-	Token string
-}
-
-func ReadConfig() (*Config, error) {
-	configFile, err := ioutil.ReadFile("config.yml")
-	if err != nil {
-		return nil, err
-	}
-	data := make(map[string]Config)
-	if err := yaml.Unmarshal(configFile, &data); err != nil {
-		return nil, err
-	}
-	config := data["auth"]
-
-	return &config, nil
 }

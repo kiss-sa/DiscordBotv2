@@ -2,12 +2,6 @@ package commands
 
 import "github.com/bwmarrin/discordgo"
 
-// var (
-// 	integerOptionMinValue          = 1.0
-// 	dmPermission                   = false
-// 	defaultMemberPermissions int64 = discordgo.PermissionManageServer
-// )
-
 var Commands = []*discordgo.ApplicationCommand{
 	{
 		Name:        "basic-command",

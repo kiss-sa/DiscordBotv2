@@ -4,10 +4,12 @@ import (
 	"bufio"
 	"math/rand"
 	"os"
+
+	"discordv2.at/m/v2/config"
 )
 
 func getPun() (string, error) {
-	punFile, err := os.Open("./src/puns.txt")
+	punFile, err := os.Open(config.Config.FilePath + "puns.txt")
 	if err != nil {
 		return "", err
 	}
@@ -19,7 +21,6 @@ func getPun() (string, error) {
 	for fileScanner.Scan() {
 		puns = append(puns, fileScanner.Text())
 	}
-
 	ind := rand.Intn(len(puns))
 
 	return puns[ind], nil
